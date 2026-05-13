@@ -12,7 +12,7 @@
 
     html { scroll-behavior: smooth; }
     *{
-      font-size: 20px;
+      font-size: 19px;
     }
     body {
       font-family: 'Inter', sans-serif;
@@ -75,6 +75,7 @@
       display: flex;
       gap: 2.5rem;
       align-items: center;
+      
     }
 
     .nav-links a {
@@ -86,6 +87,7 @@
       transition: color 0.2s, border-color 0.2s;
       border-bottom: 1px solid transparent;
       padding-bottom: 2px;
+      z-index: 2
     }
 
     .nav-links a:hover {
@@ -105,47 +107,52 @@
       line-height: 1;
     }
 
-    /* Mobile drawer */
-    @media (max-width: 768px) {
-      nav { padding: 1rem 1.25rem; }
+ @media (max-width: 768px) {
+  nav { padding: 1rem 1.25rem; }
 
-      .nav-links {
-        flex-direction: column;
-        position: fixed;
-        top: 0; right: 0;
-        width: 75vw;
-        max-width: 300px;
-        height: 100dvh;
-        background-color: #111;
-        border-left: 1px solid var(--negro-borde);
-        justify-content: center;
-        align-items: center;
-        gap: 2.5rem;
-        transform: translateX(100%);
-        opacity: 0;
-        pointer-events: none;
-        transition: transform 0.35s cubic-bezier(0.4,0,0.2,1), opacity 0.25s ease;
-        z-index: 100;
-      }
+  .nav-links {
+    flex-direction: column;
+    position: fixed;
+    top: 0; right: 0;
+    width: 75vw;
+    max-width: 300px;
+    height: 100dvh;
+    background-color: #111;
+    border-left: 1px solid var(--negro-borde);
+    justify-content: center;
+    align-items: center;
+    gap: 2.5rem;
+    transform: translateX(100%);
+    opacity: 0;
+    pointer-events: none;
+    transition: transform 0.35s cubic-bezier(0.4,0,0.2,1), opacity 0.25s ease;
+    z-index: 9999; /* ← lo más alto de todo */
+  }
 
-      .nav-links.open {
-        transform: translateX(0);
-        opacity: 1;
-        pointer-events: all;
-      }
+  .nav-links.open {
+    transform: translateX(0);
+    opacity: 1;
+    pointer-events: all;
+  }
 
-      .nav-links a { font-size: 1.3rem; }
+  .nav-links a {
+    font-size: 1rem;
+    pointer-events: all; /* ← forzar que los links sean clicables */
+  }
 
-      .hamburger { display: flex; }
+  .hamburger { display: flex; }
 
-      body.menu-open::before {
-        content: "";
-        position: fixed;
-        inset: 0;
-        background: rgba(0,0,0,0.6);
-        z-index: 99;
-      }
-    }
+  /* REEMPLAZÁ el body::before por este div en el HTML */
+  .menu-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.6);
+    z-index: 9998; /* justo debajo del drawer */
+  }
+
+  .menu-overlay.active { display: block; }
+}
 
     /* ─── HERO ─── */
     .hero {

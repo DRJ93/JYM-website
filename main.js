@@ -1,34 +1,27 @@
  const hamburger = document.getElementById('hamburger');
-    const navLinks  = document.getElementById('nav-links');
+const navLinks   = document.getElementById('nav-links');
+const overlay    = document.getElementById('menu-overlay');
 
-    hamburger.addEventListener('click', () => {
-      const isOpen = navLinks.classList.toggle('open');
-      document.body.classList.toggle('menu-open', isOpen);
-      const icon = hamburger.querySelector('i');
-      icon.classList.toggle('bi-list', !isOpen);
-      icon.classList.toggle('bi-x', isOpen);
-    });
+function openMenu() {
+  navLinks.classList.add('open');
+  overlay.classList.add('active');
+  document.body.style.overflow = ''; // evita scroll de fondo
+  hamburger.querySelector('i').classList.replace('bi-list', 'bi-x');
+}
 
-    navLinks.querySelectorAll('a').forEach(link => {
-      link.addEventListener('click', () => {
-        navLinks.classList.remove('open');
-        document.body.classList.remove('menu-open');
-        const icon = hamburger.querySelector('i');
-        icon.classList.add('bi-list');
-        icon.classList.remove('bi-x');
-      });
-    });
+function closeMenu() {
+  navLinks.classList.remove('open');
+  overlay.classList.remove('active');
+  document.body.style.overflow = '';
+  hamburger.querySelector('i').classList.replace('bi-x', 'bi-list');
+}
 
-    document.addEventListener('click', (e) => {
-      if (
-        navLinks.classList.contains('open') &&
-        !navLinks.contains(e.target) &&
-        !hamburger.contains(e.target)
-      ) {
-        navLinks.classList.remove('open');
-        document.body.classList.remove('menu-open');
-        const icon = hamburger.querySelector('i');
-        icon.classList.add('bi-list');
-        icon.classList.remove('bi-x');
-      }
-    });
+hamburger.addEventListener('click', () => {
+  navLinks.classList.contains('open') ? closeMenu() : openMenu();
+});
+
+navLinks.querySelectorAll('a').forEach(link => {
+  link.addEventListener('click', closeMenu);
+});
+
+overlay.addEventListener('click', closeMenu);
